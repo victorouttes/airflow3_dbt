@@ -1,0 +1,12 @@
+dbt_project:
+  target: datalake
+  outputs:
+    datalake:
+      type: postgres
+      host: localhost
+      user: postgres
+      password: postgres
+      port: 5433
+      dbname: postgres
+      schema: dw
+      threads: 4
