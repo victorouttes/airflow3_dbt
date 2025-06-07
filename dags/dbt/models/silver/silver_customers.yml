@@ -1,0 +1,39 @@
+version: 2
+
+models:
+  - name: silver_customers
+    description: "Dados de clientes limpos e transformados da camada bronze"
+    config:
+      alias: customers
+      materialized: incremental
+      unique_key: hashkey
+    columns:
+      - name: record_id
+        description: "Identificador único para o registro no sistema de origem"
+        tests:
+          - not_null
+      - name: source_system
+        description: "Sistema do qual os dados foram originados"
+      - name: ingestion_timestamp
+        description: "Timestamp de quando os dados foram ingeridos"
+        tests:
+          - not_null
+      - name: customer_id
+        description: "Identificador único para o cliente"
+        tests:
+          - not_null
+      - name: full_name
+        description: "Nome completo do cliente"
+      - name: email
+        description: "Endereço de e-mail do cliente"
+        tests:
+          - not_null
+      - name: phone
+        description: "Número de telefone do cliente"
+      - name: address
+        description: "Endereço físico do cliente"
+      - name: hashkey
+        description: "Chave hash única gerada a partir do e-mail"
+        tests:
+          - unique
+          - not_null

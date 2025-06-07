@@ -1,0 +1,41 @@
+version: 2
+
+models:
+  - name: silver_products
+    description: "Dados de produtos limpos e transformados da camada bronze"
+    config:
+      alias: products
+      materialized: incremental
+      unique_key: hashkey
+    columns:
+      - name: record_id
+        description: "Identificador único para o registro no sistema de origem"
+        tests:
+          - not_null
+      - name: source_system
+        description: "Sistema do qual os dados foram originados"
+      - name: ingestion_timestamp
+        description: "Timestamp de quando os dados foram ingeridos"
+        tests:
+          - not_null
+      - name: sku
+        description: "Unidade de manutenção de estoque - identificador único para o produto"
+        tests:
+          - not_null
+      - name: product_name
+        description: "Nome do produto"
+        tests:
+          - not_null
+      - name: unit_cost
+        description: "Custo unitário do produto"
+        tests:
+          - not_null
+      - name: stock
+        description: "Nível atual de estoque do produto"
+        tests:
+          - not_null
+      - name: hashkey
+        description: "Chave hash única gerada a partir do sku"
+        tests:
+          - unique
+          - not_null

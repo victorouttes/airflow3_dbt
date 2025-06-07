@@ -1,0 +1,42 @@
+version: 2
+
+models:
+  - name: silver_orders
+    description: "Dados de pedidos limpos e transformados da camada bronze"
+    config:
+      alias: orders
+      materialized: incremental
+      unique_key: hashkey
+    columns:
+      - name: record_id
+        description: "Identificador único para o registro no sistema de origem"
+        tests:
+          - not_null
+      - name: source_system
+        description: "Sistema do qual os dados foram originados"
+      - name: ingestion_timestamp
+        description: "Timestamp de quando os dados foram ingeridos"
+        tests:
+          - not_null
+      - name: order_id
+        description: "Identificador único para o pedido"
+        tests:
+          - not_null
+      - name: customer_id
+        description: "Identificador do cliente que fez o pedido"
+        tests:
+          - not_null
+          - relationships:
+              to: ref('silver_customers')
+              field: customer_id
+      - name: status
+        description: "Status atual do pedido"
+      - name: total
+        description: "Valor total do pedido"
+        tests:
+          - not_null
+      - name: hashkey
+        description: "Chave hash única gerada a partir do order_id"
+        tests:
+          - unique
+          - not_null
