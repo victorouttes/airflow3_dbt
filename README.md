@@ -14,7 +14,7 @@ airflow:
       conn_schema: postgres
       conn_extra: {}
 ```
-
+Para iniciar o Airflow:
 ```bash
 astro dev start
 ```
@@ -39,4 +39,11 @@ Abra o DBeaver, conecte no DW e rode o script [bronze.sql](dw/bronze.sql).
 ```bash
 cd dags/dbt
 DBT_PROFILES_DIR=. dbt run
+```
+
+6 - Acesse o Airflow
+Acesse em `http://localhost:8080` com as credenciais:
+```
+login: airflow
+senha: airflow
 ```
